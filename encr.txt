@@ -1,0 +1,26 @@
+====
+How The Cryptosystem Works
+====
+Input:
+-A Bytearray from an arbitary file
+-A Passphrase
+
+1.
+A Hash for the passphrase is generated. Currently MD5, RIPEMD160, SHA1, SHA256, SHA384 and SHA 512 are possible because they are a part of the System.Security.Cryptography namespace, but others might be added.
+
+2.
+A Seed is chosen. Currently a Passphrase to byte to integer conversion. !!!MIGHT CHANGE!!!
+
+3.
+The Bytearray is split into chunks of 1 hash length.
+3.1
+With each step, a byte from the hash is added to the seed
+3.2
+The seed is hashed. This should create enough enthropy to make sure no chunk is transformed using the same key.
+3.3
+The key and the chunk are added bit by bit without carryover.
+3.4
+The result chunk is appended to the output array
+
+4.
+The output array can be stored/transmitted.
