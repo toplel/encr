@@ -1,7 +1,7 @@
 encr
 ====
 
-A simple passphrase-based encryption tool for all filetypes.
+A simple a symmetric-key cryptosystem, currently implemented in vb.net for all filetypes. Versions in PHP, Python and C/C++ might follow. 
 
 ====
 
