@@ -9,7 +9,7 @@ Input:
 A Hash for the passphrase is generated. Currently MD5, RIPEMD160, SHA1, SHA256, SHA384 and SHA 512 are possible because they are a part of the System.Security.Cryptography namespace, but others might be added.
 
 2.
-A Seed is chosen. Currently a Passphrase to byte to integer conversion. !!!MIGHT CHANGE!!!
+A Seed is chosen. Currently a Passphrase to byte to integer conversion. The first two and the last two bytes are used. !!!MIGHT CHANGE!!!
 
 3.
 The Bytearray is split into chunks of 1 hash length.
