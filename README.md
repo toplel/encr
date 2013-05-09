@@ -6,3 +6,7 @@ A simple a symmetric-key cryptosystem, currently implemented in vb.net for all f
 ====
 
 Up to now, the safety can't be granted. The system follows very simple rules. Please report any weaknesses (with proof!!!) you find.
+
+====
+
+Windoze binaries for x86 and x64 on sourceforge: https://sourceforge.net/projects/encr/
