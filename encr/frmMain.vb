@@ -39,6 +39,24 @@ Public Class frmMain
         End Try
     End Sub
 
+    Private Sub saveFile(_fileName As String)
+        If Not IsNothing(_outBytes) Then
+            Try
+                Dim _fileStream As New FileStream(_fileName, FileMode.Create)
+                Dim _binaryReader As BinaryReader = New BinaryReader(_fileStream)
+                _fileStream.Write(_outBytes, 0, _outBytes.Length)
+                _fileStream.Close()
+
+#If DEBUG Then 'SHOW THE LOADED FILE'S SIZE IN BYTES
+                MsgBox(_outBytes.LongLength)
+#End If
+
+            Catch _e As Exception
+                handleErrors(_e)
+            End Try
+        End If
+    End Sub
+
     Private Sub handleErrors(_error As Exception)
         'THIS DOES NOT HANDLE THE ERRORS! IT'S A DEBUGGING HELP TO FEEDBACK EXCEPTIONS TO THE DEVELOPPER.
 #If DEBUG Then
@@ -80,6 +98,7 @@ Public Class frmMain
     End Function
 
     Private Sub encrypt()
+        lockUI(True)
         _passphraseHash = hashSomething(_passphrase)
 
         Dim _seed(3) As Byte 'THIS IS RIDICULOUSLY STUPID, THIS HAS TO BE CHANGED!!!
@@ -94,7 +113,10 @@ Public Class frmMain
 
         Dim _chunkKey() As Byte 'THIS IS UGLY.
 
-        For _x As Int64 = 0 To Ceiling(_sourceBytes.Length / _passphraseHash.Length) 'BUILD THE KEY BYTES.
+        Array.Resize(_outBytes, _sourceBytes.Length)
+        _outBytes.Initialize()
+
+        For _x As Int32 = 0 To Ceiling(_sourceBytes.Length / _passphraseHash.Length) 'BUILD THE KEY BYTES.
 
             _seedInt += _passphraseHash(_x Mod _passphraseHash.Length)
             _chunkKey = hashSomething(BitConverter.GetBytes(_seedInt))
@@ -108,11 +130,31 @@ Public Class frmMain
                 _keyBytes = _chunkKey
             End If
 
-
-
+            'If _x Mod 131072 = 0 Then updateProgressBar(_x / Ceiling(_sourceBytes.Length / _passphraseHash.Length)) 'SLOOOOW
+            Application.DoEvents()  'DON'T F**KIN FREEZE!
         Next
+
+#If DEBUG Then
         MsgBox(_keyBytes.Length)
         MsgBox(_sourceBytes.Length)
+#End If
+
+        For _x As Int64 = 0 To _sourceBytes.Length - 1 'XOR THE KEY AND THE SOURCE
+            Dim _sourceByte As Byte = _sourceBytes(_x)
+            Dim _keyByte As Byte = _keyBytes(_x)
+            _outBytes(_x) = _sourceByte Xor _keyByte
+            'If _x Mod 131072 = 0 Then updateProgressBar(_x / _sourceBytes.Length) 'SLOOOOW
+            Application.DoEvents() 'DON'T F**KIN FREEZE!
+        Next
+
+#If DEBUG Then
+        MsgBox(_outBytes.Length)
+        MsgBox(_sourceBytes.Length)
+#End If
+
+        saveFile(ofdOpenFile.FileName & ".encr")
+        updateProgressBar(0)
+        lockUI(False)
     End Sub
 
 
@@ -148,17 +190,34 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub updateProgressBar(_progress As Single)
+        pbrProgress.Value = Int(pbrProgress.Maximum * _progress)
+    End Sub
 
-#End Region
-
+    Private Sub lockUI(_lock As Boolean)
+        If _lock = True Then
+            btnChangeSource.Enabled = False
+            btnEncrypt.Enabled = False
+            cbxHashType.Enabled = False
+        Else
+            btnChangeSource.Enabled = True
+            btnEncrypt.Enabled = True
+            cbxHashType.Enabled = True
+        End If
+    End Sub
 
     Private Sub btnEncrypt_Click(sender As Object, e As EventArgs) Handles btnEncrypt.Click
         If Not IsNothing(_sourceBytes) Then
-            encrypt()
+            If Not tbxPassphrase.Text = "" Then
+                encrypt()
+            End If
         End If
     End Sub
 
     Private Sub tbxPassphrase_TextChanged(sender As Object, e As EventArgs) Handles tbxPassphrase.TextChanged
         _passphrase = Encoding.UTF8.GetBytes(tbxPassphrase.Text)
     End Sub
+
+#End Region
+
 End Class
