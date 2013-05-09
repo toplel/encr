@@ -26,7 +26,7 @@ Partial Class frmMain
         Me.lblInputDirectory = New System.Windows.Forms.Label()
         Me.lblOutputDirectory = New System.Windows.Forms.Label()
         Me.tbxByteShow = New System.Windows.Forms.TextBox()
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.pbrProgress = New System.Windows.Forms.ProgressBar()
         Me.tbxPassphrase = New System.Windows.Forms.TextBox()
         Me.btnSavePass = New System.Windows.Forms.Button()
         Me.btnChangeSource = New System.Windows.Forms.Button()
@@ -73,12 +73,12 @@ Partial Class frmMain
         Me.tbxByteShow.Size = New System.Drawing.Size(444, 251)
         Me.tbxByteShow.TabIndex = 4
         '
-        'ProgressBar1
+        'pbrProgress
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(13, 373)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(443, 23)
-        Me.ProgressBar1.TabIndex = 5
+        Me.pbrProgress.Location = New System.Drawing.Point(13, 373)
+        Me.pbrProgress.Name = "pbrProgress"
+        Me.pbrProgress.Size = New System.Drawing.Size(443, 23)
+        Me.pbrProgress.TabIndex = 5
         '
         'tbxPassphrase
         '
@@ -165,7 +165,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.btnChangeSource)
         Me.Controls.Add(Me.btnSavePass)
         Me.Controls.Add(Me.tbxPassphrase)
-        Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.pbrProgress)
         Me.Controls.Add(Me.tbxByteShow)
         Me.Controls.Add(Me.lblOutputDirectory)
         Me.Controls.Add(Me.lblInputDirectory)
@@ -181,7 +181,7 @@ Partial Class frmMain
     Friend WithEvents lblInputDirectory As System.Windows.Forms.Label
     Friend WithEvents lblOutputDirectory As System.Windows.Forms.Label
     Friend WithEvents tbxByteShow As System.Windows.Forms.TextBox
-    Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
+    Friend WithEvents pbrProgress As System.Windows.Forms.ProgressBar
     Friend WithEvents ttpInfo As System.Windows.Forms.ToolTip
     Friend WithEvents tbxPassphrase As System.Windows.Forms.TextBox
     Friend WithEvents btnSavePass As System.Windows.Forms.Button
