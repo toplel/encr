@@ -23,10 +23,8 @@ Partial Class frmMain
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.lblInputDirectory = New System.Windows.Forms.Label()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.tbxInputBytes = New System.Windows.Forms.TextBox()
-        Me.pbrProgress = New System.Windows.Forms.ProgressBar()
-        Me.tbxPassphrase = New System.Windows.Forms.TextBox()
         Me.btnSavePass = New System.Windows.Forms.Button()
         Me.btnChangeSource = New System.Windows.Forms.Button()
         Me.ttpInfo = New System.Windows.Forms.ToolTip(Me.components)
@@ -37,49 +35,24 @@ Partial Class frmMain
         Me.tbcByteDisplay = New System.Windows.Forms.TabControl()
         Me.tbpInputBytes = New System.Windows.Forms.TabPage()
         Me.tbpOutputBytes = New System.Windows.Forms.TabPage()
-        Me.tbxOutBytes = New System.Windows.Forms.TextBox()
+        Me.tbxOutputBytes = New System.Windows.Forms.TextBox()
+        Me.tbxPassphrase = New System.Windows.Forms.TextBox()
+        Me.tbxSourceFile = New System.Windows.Forms.TextBox()
         Me.tbcByteDisplay.SuspendLayout()
         Me.tbpInputBytes.SuspendLayout()
         Me.tbpOutputBytes.SuspendLayout()
         Me.SuspendLayout()
         '
-        'lblInputDirectory
-        '
-        Me.lblInputDirectory.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblInputDirectory.Location = New System.Drawing.Point(12, 9)
-        Me.lblInputDirectory.Name = "lblInputDirectory"
-        Me.lblInputDirectory.Size = New System.Drawing.Size(345, 20)
-        Me.lblInputDirectory.TabIndex = 1
-        Me.lblInputDirectory.Text = "Source File"
-        Me.lblInputDirectory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ttpInfo.SetToolTip(Me.lblInputDirectory, "Source File.")
-        '
         'tbxInputBytes
         '
-        Me.tbxInputBytes.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbxInputBytes.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbxInputBytes.Location = New System.Drawing.Point(0, 0)
         Me.tbxInputBytes.Multiline = True
         Me.tbxInputBytes.Name = "tbxInputBytes"
         Me.tbxInputBytes.ReadOnly = True
         Me.tbxInputBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.tbxInputBytes.Size = New System.Drawing.Size(434, 252)
+        Me.tbxInputBytes.Size = New System.Drawing.Size(434, 275)
         Me.tbxInputBytes.TabIndex = 4
-        '
-        'pbrProgress
-        '
-        Me.pbrProgress.Location = New System.Drawing.Point(13, 373)
-        Me.pbrProgress.Name = "pbrProgress"
-        Me.pbrProgress.Size = New System.Drawing.Size(443, 23)
-        Me.pbrProgress.TabIndex = 5
-        '
-        'tbxPassphrase
-        '
-        Me.tbxPassphrase.Location = New System.Drawing.Point(12, 35)
-        Me.tbxPassphrase.Name = "tbxPassphrase"
-        Me.tbxPassphrase.Size = New System.Drawing.Size(344, 20)
-        Me.tbxPassphrase.TabIndex = 6
-        Me.ttpInfo.SetToolTip(Me.tbxPassphrase, "Passphrase. Longer passphrases DON'T make the encryption more safe. Use slower ha" & _
-        "shes instead. However, a too easy passphrase can be guessed.")
         '
         'btnSavePass
         '
@@ -131,11 +104,10 @@ Partial Class frmMain
         '
         Me.tbcByteDisplay.Controls.Add(Me.tbpInputBytes)
         Me.tbcByteDisplay.Controls.Add(Me.tbpOutputBytes)
-        Me.tbcByteDisplay.Enabled = False
         Me.tbcByteDisplay.Location = New System.Drawing.Point(13, 89)
         Me.tbcByteDisplay.Name = "tbcByteDisplay"
         Me.tbcByteDisplay.SelectedIndex = 0
-        Me.tbcByteDisplay.Size = New System.Drawing.Size(442, 278)
+        Me.tbcByteDisplay.Size = New System.Drawing.Size(442, 301)
         Me.tbcByteDisplay.TabIndex = 13
         '
         'tbpInputBytes
@@ -144,51 +116,67 @@ Partial Class frmMain
         Me.tbpInputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpInputBytes.Name = "tbpInputBytes"
         Me.tbpInputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpInputBytes.Size = New System.Drawing.Size(434, 252)
+        Me.tbpInputBytes.Size = New System.Drawing.Size(434, 275)
         Me.tbpInputBytes.TabIndex = 0
         Me.tbpInputBytes.Text = "Input"
         Me.tbpInputBytes.UseVisualStyleBackColor = True
         '
         'tbpOutputBytes
         '
-        Me.tbpOutputBytes.Controls.Add(Me.tbxOutBytes)
+        Me.tbpOutputBytes.Controls.Add(Me.tbxOutputBytes)
         Me.tbpOutputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpOutputBytes.Name = "tbpOutputBytes"
         Me.tbpOutputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpOutputBytes.Size = New System.Drawing.Size(434, 252)
+        Me.tbpOutputBytes.Size = New System.Drawing.Size(434, 275)
         Me.tbpOutputBytes.TabIndex = 1
         Me.tbpOutputBytes.Text = "Output"
         Me.tbpOutputBytes.UseVisualStyleBackColor = True
         '
-        'tbxOutBytes
+        'tbxOutputBytes
         '
-        Me.tbxOutBytes.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbxOutBytes.Location = New System.Drawing.Point(0, 0)
-        Me.tbxOutBytes.Multiline = True
-        Me.tbxOutBytes.Name = "tbxOutBytes"
-        Me.tbxOutBytes.ReadOnly = True
-        Me.tbxOutBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.tbxOutBytes.Size = New System.Drawing.Size(434, 252)
-        Me.tbxOutBytes.TabIndex = 14
+        Me.tbxOutputBytes.BackColor = System.Drawing.SystemColors.Control
+        Me.tbxOutputBytes.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbxOutputBytes.Location = New System.Drawing.Point(0, 0)
+        Me.tbxOutputBytes.Multiline = True
+        Me.tbxOutputBytes.Name = "tbxOutputBytes"
+        Me.tbxOutputBytes.ReadOnly = True
+        Me.tbxOutputBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.tbxOutputBytes.Size = New System.Drawing.Size(434, 275)
+        Me.tbxOutputBytes.TabIndex = 14
+        '
+        'tbxPassphrase
+        '
+        Me.tbxPassphrase.Location = New System.Drawing.Point(12, 35)
+        Me.tbxPassphrase.Name = "tbxPassphrase"
+        Me.tbxPassphrase.Size = New System.Drawing.Size(345, 20)
+        Me.tbxPassphrase.TabIndex = 14
+        '
+        'tbxSourceFile
+        '
+        Me.tbxSourceFile.Location = New System.Drawing.Point(11, 9)
+        Me.tbxSourceFile.Name = "tbxSourceFile"
+        Me.tbxSourceFile.ReadOnly = True
+        Me.tbxSourceFile.Size = New System.Drawing.Size(345, 20)
+        Me.tbxSourceFile.TabIndex = 15
+        Me.tbxSourceFile.Text = "Source File"
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(468, 408)
+        Me.ClientSize = New System.Drawing.Size(468, 402)
+        Me.Controls.Add(Me.tbxSourceFile)
+        Me.Controls.Add(Me.tbxPassphrase)
         Me.Controls.Add(Me.tbcByteDisplay)
         Me.Controls.Add(Me.btnEncrypt)
         Me.Controls.Add(Me.cbxHashType)
         Me.Controls.Add(Me.btnChangeSource)
         Me.Controls.Add(Me.btnSavePass)
-        Me.Controls.Add(Me.tbxPassphrase)
-        Me.Controls.Add(Me.pbrProgress)
-        Me.Controls.Add(Me.lblInputDirectory)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmMain"
-        Me.Text = "encr"
         Me.tbcByteDisplay.ResumeLayout(False)
         Me.tbpInputBytes.ResumeLayout(False)
         Me.tbpInputBytes.PerformLayout()
@@ -198,11 +186,8 @@ Partial Class frmMain
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents lblInputDirectory As System.Windows.Forms.Label
     Friend WithEvents tbxInputBytes As System.Windows.Forms.TextBox
-    Friend WithEvents pbrProgress As System.Windows.Forms.ProgressBar
     Friend WithEvents ttpInfo As System.Windows.Forms.ToolTip
-    Friend WithEvents tbxPassphrase As System.Windows.Forms.TextBox
     Friend WithEvents btnSavePass As System.Windows.Forms.Button
     Friend WithEvents btnChangeSource As System.Windows.Forms.Button
     Friend WithEvents ofdOpenFile As System.Windows.Forms.OpenFileDialog
@@ -212,6 +197,8 @@ Partial Class frmMain
     Friend WithEvents tbcByteDisplay As System.Windows.Forms.TabControl
     Friend WithEvents tbpInputBytes As System.Windows.Forms.TabPage
     Friend WithEvents tbpOutputBytes As System.Windows.Forms.TabPage
-    Friend WithEvents tbxOutBytes As System.Windows.Forms.TextBox
+    Friend WithEvents tbxOutputBytes As System.Windows.Forms.TextBox
+    Friend WithEvents tbxPassphrase As System.Windows.Forms.TextBox
+    Friend WithEvents tbxSourceFile As System.Windows.Forms.TextBox
 
 End Class

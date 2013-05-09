@@ -7,6 +7,7 @@ Public Class frmMain
 
 
 #Region "IO OPS"
+
     Private _currentHash As Hash
     Private _sourceBytes() As Byte
     Private _outBytes() As Byte
@@ -14,6 +15,9 @@ Public Class frmMain
     Private _passphrase() As Byte
     Private _passphraseHash() As Byte
     Private _passphraseSeed As Integer
+
+    Private _inputHex As String
+    Private _outputHex As String
 
     Enum Hash As Integer
         MD5 = 0
@@ -25,6 +29,7 @@ Public Class frmMain
     End Enum
 
     Private Sub loadFile(_fileName As String)
+        _sourceBytes = Nothing
         Try
             Dim _fileStream As New FileStream(_fileName, FileMode.Open)
             Dim _binaryReader As BinaryReader = New BinaryReader(_fileStream)
@@ -33,7 +38,8 @@ Public Class frmMain
 #If DEBUG Then 'SHOW THE LOADED FILE'S SIZE IN BYTES
             MsgBox(_sourceBytes.LongLength)
 #End If
-
+            _inputHex = bytesToString(_sourceBytes)
+            updateHexDisplay()
         Catch _e As Exception
             handleErrors(_e)
         End Try
@@ -68,6 +74,17 @@ Public Class frmMain
         'LOGGING IS UNSAFE
     End Sub
 
+
+    Private Function bytesToString(_inputBytes As Byte()) As String
+        Dim _string As String
+        For Each _b As Byte In _inputBytes
+            Dim _s As String = Conversion.Hex(_b)
+            If _s.Length = 1 Then _s = "0" & _s
+            _string = _string & (_s & " ")
+            Application.DoEvents()
+        Next
+        Return _string
+    End Function
 #End Region
 
 
@@ -130,7 +147,6 @@ Public Class frmMain
                 _keyBytes = _chunkKey
             End If
 
-            'If _x Mod 131072 = 0 Then updateProgressBar(_x / Ceiling(_sourceBytes.Length / _passphraseHash.Length)) 'SLOOOOW
             Application.DoEvents()  'DON'T F**KIN FREEZE!
         Next
 
@@ -143,7 +159,6 @@ Public Class frmMain
             Dim _sourceByte As Byte = _sourceBytes(_x)
             Dim _keyByte As Byte = _keyBytes(_x)
             _outBytes(_x) = _sourceByte Xor _keyByte
-            'If _x Mod 131072 = 0 Then updateProgressBar(_x / _sourceBytes.Length) 'SLOOOOW
             Application.DoEvents() 'DON'T F**KIN FREEZE!
         Next
 
@@ -153,8 +168,9 @@ Public Class frmMain
 #End If
 
         saveFile(ofdOpenFile.FileName & ".encr")
-        updateProgressBar(0)
         lockUI(False)
+        _outputHex = bytesToString(_outBytes)
+        updateHexDisplay()
     End Sub
 
 
@@ -184,14 +200,10 @@ Public Class frmMain
 
         If ofdOpenFile.ShowDialog = Windows.Forms.DialogResult.OK Then
             If Not ofdOpenFile.FileName = "" Then
-                lblInputDirectory.Text = ofdOpenFile.FileName
+                tbxSourceFile.Text = ofdOpenFile.FileName
                 loadFile(ofdOpenFile.FileName)
             End If
         End If
-    End Sub
-
-    Private Sub updateProgressBar(_progress As Single)
-        pbrProgress.Value = Int(pbrProgress.Maximum * _progress)
     End Sub
 
     Private Sub lockUI(_lock As Boolean)
@@ -216,6 +228,11 @@ Public Class frmMain
 
     Private Sub tbxPassphrase_TextChanged(sender As Object, e As EventArgs) Handles tbxPassphrase.TextChanged
         _passphrase = Encoding.UTF8.GetBytes(tbxPassphrase.Text)
+    End Sub
+
+    Private Sub updateHexDisplay()
+        tbxInputBytes.Text = _inputHex
+        tbxOutputBytes.Text = _outputHex
     End Sub
 
 #End Region
