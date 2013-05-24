@@ -36,10 +36,10 @@ Partial Class frmMain
         Me.tbpInputBytes = New System.Windows.Forms.TabPage()
         Me.tbpOutputBytes = New System.Windows.Forms.TabPage()
         Me.tbxOutputBytes = New System.Windows.Forms.TextBox()
-        Me.tbxPassphrase = New System.Windows.Forms.TextBox()
-        Me.tbxSourceFile = New System.Windows.Forms.TextBox()
         Me.tbpOptions = New System.Windows.Forms.TabPage()
         Me.clbOptions = New System.Windows.Forms.CheckedListBox()
+        Me.tbxPassphrase = New System.Windows.Forms.TextBox()
+        Me.tbxSourceFile = New System.Windows.Forms.TextBox()
         Me.tbcByteDisplay.SuspendLayout()
         Me.tbpInputBytes.SuspendLayout()
         Me.tbpOutputBytes.SuspendLayout()
@@ -60,9 +60,9 @@ Partial Class frmMain
         'btnSavePass
         '
         Me.btnSavePass.Enabled = False
-        Me.btnSavePass.Location = New System.Drawing.Point(362, 35)
+        Me.btnSavePass.Location = New System.Drawing.Point(296, 36)
         Me.btnSavePass.Name = "btnSavePass"
-        Me.btnSavePass.Size = New System.Drawing.Size(94, 20)
+        Me.btnSavePass.Size = New System.Drawing.Size(100, 20)
         Me.btnSavePass.TabIndex = 7
         Me.btnSavePass.Text = "Save..."
         Me.ttpInfo.SetToolTip(Me.btnSavePass, "Save Passphrase. UNSAFE!")
@@ -70,9 +70,9 @@ Partial Class frmMain
         '
         'btnChangeSource
         '
-        Me.btnChangeSource.Location = New System.Drawing.Point(363, 9)
+        Me.btnChangeSource.Location = New System.Drawing.Point(296, 8)
         Me.btnChangeSource.Name = "btnChangeSource"
-        Me.btnChangeSource.Size = New System.Drawing.Size(93, 20)
+        Me.btnChangeSource.Size = New System.Drawing.Size(100, 20)
         Me.btnChangeSource.TabIndex = 8
         Me.btnChangeSource.Text = "Change..."
         Me.ttpInfo.SetToolTip(Me.btnChangeSource, "Change Source File")
@@ -87,18 +87,18 @@ Partial Class frmMain
         Me.cbxHashType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxHashType.FormattingEnabled = True
         Me.cbxHashType.Items.AddRange(New Object() {"MD5 - 255 MiB/s", "RIPEMD160 - 106 MiB/s", "SHA1 - 153 MiB/s", "SHA256 - 111 MiB/s", "SHA384 - unknown, around 105 MiB/s", "SHA512 - 99 MiB/s"})
-        Me.cbxHashType.Location = New System.Drawing.Point(12, 61)
+        Me.cbxHashType.Location = New System.Drawing.Point(8, 64)
         Me.cbxHashType.Name = "cbxHashType"
-        Me.cbxHashType.Size = New System.Drawing.Size(345, 21)
+        Me.cbxHashType.Size = New System.Drawing.Size(280, 21)
         Me.cbxHashType.TabIndex = 10
         Me.ttpInfo.SetToolTip(Me.cbxHashType, "Select the Hash Algorithm. Speeds according to http://www.cryptopp.com/benchmarks" & _
         ".html.")
         '
         'btnEncrypt
         '
-        Me.btnEncrypt.Location = New System.Drawing.Point(364, 61)
+        Me.btnEncrypt.Location = New System.Drawing.Point(296, 64)
         Me.btnEncrypt.Name = "btnEncrypt"
-        Me.btnEncrypt.Size = New System.Drawing.Size(92, 22)
+        Me.btnEncrypt.Size = New System.Drawing.Size(100, 22)
         Me.btnEncrypt.TabIndex = 11
         Me.btnEncrypt.Text = "Crypt."
         Me.btnEncrypt.UseVisualStyleBackColor = True
@@ -108,10 +108,10 @@ Partial Class frmMain
         Me.tbcByteDisplay.Controls.Add(Me.tbpInputBytes)
         Me.tbcByteDisplay.Controls.Add(Me.tbpOutputBytes)
         Me.tbcByteDisplay.Controls.Add(Me.tbpOptions)
-        Me.tbcByteDisplay.Location = New System.Drawing.Point(12, 89)
+        Me.tbcByteDisplay.Location = New System.Drawing.Point(8, 92)
         Me.tbcByteDisplay.Name = "tbcByteDisplay"
         Me.tbcByteDisplay.SelectedIndex = 0
-        Me.tbcByteDisplay.Size = New System.Drawing.Size(444, 301)
+        Me.tbcByteDisplay.Size = New System.Drawing.Size(388, 300)
         Me.tbcByteDisplay.TabIndex = 13
         '
         'tbpInputBytes
@@ -148,28 +148,12 @@ Partial Class frmMain
         Me.tbxOutputBytes.Size = New System.Drawing.Size(434, 275)
         Me.tbxOutputBytes.TabIndex = 14
         '
-        'tbxPassphrase
-        '
-        Me.tbxPassphrase.Location = New System.Drawing.Point(12, 35)
-        Me.tbxPassphrase.Name = "tbxPassphrase"
-        Me.tbxPassphrase.Size = New System.Drawing.Size(345, 20)
-        Me.tbxPassphrase.TabIndex = 14
-        '
-        'tbxSourceFile
-        '
-        Me.tbxSourceFile.Location = New System.Drawing.Point(12, 9)
-        Me.tbxSourceFile.Name = "tbxSourceFile"
-        Me.tbxSourceFile.ReadOnly = True
-        Me.tbxSourceFile.Size = New System.Drawing.Size(345, 20)
-        Me.tbxSourceFile.TabIndex = 15
-        Me.tbxSourceFile.Text = "Source File"
-        '
         'tbpOptions
         '
         Me.tbpOptions.Controls.Add(Me.clbOptions)
         Me.tbpOptions.Location = New System.Drawing.Point(4, 22)
         Me.tbpOptions.Name = "tbpOptions"
-        Me.tbpOptions.Size = New System.Drawing.Size(436, 275)
+        Me.tbpOptions.Size = New System.Drawing.Size(380, 274)
         Me.tbpOptions.TabIndex = 2
         Me.tbpOptions.Text = "Options"
         Me.tbpOptions.UseVisualStyleBackColor = True
@@ -181,15 +165,31 @@ Partial Class frmMain
         Me.clbOptions.Items.AddRange(New Object() {"Allow short passphrases", "Warn on large files", "Remove existing *.encr extension", "Save to source folder", "Delete source (no undo!)"})
         Me.clbOptions.Location = New System.Drawing.Point(0, 0)
         Me.clbOptions.Name = "clbOptions"
-        Me.clbOptions.Size = New System.Drawing.Size(436, 275)
+        Me.clbOptions.Size = New System.Drawing.Size(380, 274)
         Me.clbOptions.TabIndex = 0
+        '
+        'tbxPassphrase
+        '
+        Me.tbxPassphrase.Location = New System.Drawing.Point(8, 36)
+        Me.tbxPassphrase.Name = "tbxPassphrase"
+        Me.tbxPassphrase.Size = New System.Drawing.Size(280, 20)
+        Me.tbxPassphrase.TabIndex = 14
+        '
+        'tbxSourceFile
+        '
+        Me.tbxSourceFile.Location = New System.Drawing.Point(8, 8)
+        Me.tbxSourceFile.Name = "tbxSourceFile"
+        Me.tbxSourceFile.ReadOnly = True
+        Me.tbxSourceFile.Size = New System.Drawing.Size(280, 20)
+        Me.tbxSourceFile.TabIndex = 15
+        Me.tbxSourceFile.Text = "Source File"
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(468, 402)
+        Me.ClientSize = New System.Drawing.Size(402, 400)
         Me.Controls.Add(Me.tbxSourceFile)
         Me.Controls.Add(Me.tbxPassphrase)
         Me.Controls.Add(Me.tbcByteDisplay)
