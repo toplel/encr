@@ -48,13 +48,14 @@ Partial Class frmMain
         '
         'tbxInputBytes
         '
+        Me.tbxInputBytes.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tbxInputBytes.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbxInputBytes.Location = New System.Drawing.Point(0, 0)
+        Me.tbxInputBytes.Location = New System.Drawing.Point(3, 3)
         Me.tbxInputBytes.Multiline = True
         Me.tbxInputBytes.Name = "tbxInputBytes"
         Me.tbxInputBytes.ReadOnly = True
         Me.tbxInputBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.tbxInputBytes.Size = New System.Drawing.Size(434, 275)
+        Me.tbxInputBytes.Size = New System.Drawing.Size(374, 268)
         Me.tbxInputBytes.TabIndex = 4
         '
         'btnSavePass
@@ -120,7 +121,7 @@ Partial Class frmMain
         Me.tbpInputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpInputBytes.Name = "tbpInputBytes"
         Me.tbpInputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpInputBytes.Size = New System.Drawing.Size(436, 275)
+        Me.tbpInputBytes.Size = New System.Drawing.Size(380, 274)
         Me.tbpInputBytes.TabIndex = 0
         Me.tbpInputBytes.Text = "Input"
         Me.tbpInputBytes.UseVisualStyleBackColor = True
@@ -131,7 +132,7 @@ Partial Class frmMain
         Me.tbpOutputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpOutputBytes.Name = "tbpOutputBytes"
         Me.tbpOutputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpOutputBytes.Size = New System.Drawing.Size(436, 275)
+        Me.tbpOutputBytes.Size = New System.Drawing.Size(380, 274)
         Me.tbpOutputBytes.TabIndex = 1
         Me.tbpOutputBytes.Text = "Output"
         Me.tbpOutputBytes.UseVisualStyleBackColor = True
@@ -139,13 +140,14 @@ Partial Class frmMain
         'tbxOutputBytes
         '
         Me.tbxOutputBytes.BackColor = System.Drawing.SystemColors.Control
+        Me.tbxOutputBytes.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tbxOutputBytes.Font = New System.Drawing.Font("Consolas", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbxOutputBytes.Location = New System.Drawing.Point(0, 0)
+        Me.tbxOutputBytes.Location = New System.Drawing.Point(3, 3)
         Me.tbxOutputBytes.Multiline = True
         Me.tbxOutputBytes.Name = "tbxOutputBytes"
         Me.tbxOutputBytes.ReadOnly = True
         Me.tbxOutputBytes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.tbxOutputBytes.Size = New System.Drawing.Size(434, 275)
+        Me.tbxOutputBytes.Size = New System.Drawing.Size(374, 268)
         Me.tbxOutputBytes.TabIndex = 14
         '
         'tbpOptions

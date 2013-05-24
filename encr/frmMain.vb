@@ -31,6 +31,7 @@ Public Class frmMain
 
     Private Sub loadFile(_fileName As String)
         _sourceBytes = Nothing
+        _outBytes = Nothing
         Try
             Dim _fileStream As New FileStream(_fileName, FileMode.Open)
             Dim _binaryReader As BinaryReader = New BinaryReader(_fileStream)
@@ -44,13 +45,16 @@ Public Class frmMain
                     End If
                 End If
             End If
-#If DEBUG Then 'SHOW THE LOADED FILE'S SIZE IN BYTES
+#If DEBUG Then
             MsgBox(_sourceBytes.LongLength)
 #End If
-                _inputHex = bytesToString(_sourceBytes)
-                updateHexDisplay()
-        Catch _e As Exception
-            handleErrors(_e)
+            _inputHex = "loading..."
+            _outputHex = ""
+            updateHexDisplay()
+            _inputHex = bytesToString(_sourceBytes)
+            updateHexDisplay()
+        Catch _ex As Exception
+            handleErrors(_ex)
         End Try
     End Sub
 
@@ -127,20 +131,22 @@ Public Class frmMain
         lockUI(True)
         _passphraseHash = hashSomething(_passphrase)
 
-        Dim _seed() As Byte = _passphrase 'THIS IS RIDICULOUSLY STUPID, THIS HAS TO BE CHANGED!!!
+        Dim _seed() As Byte = _passphrase
+#If DEBUG Then
+        MsgBox(bytesToString(_seed))
+#End If
 
         Dim _keyBytes() As Byte
 
-        Dim _chunkKey() As Byte 'THIS IS UGLY.
+        Dim _chunkKey() As Byte
 
         Array.Resize(_outBytes, _sourceBytes.Length)
         _outBytes.Initialize()
 
         For _x As Int32 = 0 To Ceiling(_sourceBytes.Length / _passphraseHash.Length) 'BUILD THE KEY BYTES.
 
-            addByte(_seed, (_passphraseHash(_x Mod _passphraseHash.Length)))
+            _seed = addByte(_seed, (_passphraseHash(_x Mod _passphraseHash.Length)))
             _chunkKey = hashSomething(_seed)
-
             If Not IsNothing(_keyBytes) Then 'THIS IS UGLY AS F**K
                 Dim _keyBytesOldLength As Integer
                 _keyBytesOldLength = _keyBytes.Length
@@ -182,11 +188,13 @@ Public Class frmMain
         saveFile(_savename)
         If My.Settings.DeleteSource Then File.Delete(ofdOpenFile.FileName)
         lockUI(False)
+        _outputHex = "loading..."
+        updateHexDisplay()
         _outputHex = bytesToString(_outBytes)
         updateHexDisplay()
     End Sub
 
-    Private Function addByte(ByRef bytes As Byte(), addThisByte As Byte) 'CAAAANCEROUS SHIT
+    Private Function addByte(ByVal bytes As Byte(), addThisByte As Byte) As Byte() 'CAAAANCEROUS SHIT
         For x = 0 To bytes.Length
             Dim bytes_x As Int16 = (bytes(x))
             Dim _addthisbyte As Int16 = addThisByte
@@ -202,6 +210,7 @@ Public Class frmMain
                 Exit For
             End If
         Next
+        Return bytes
     End Function
 
 #End Region
@@ -263,13 +272,10 @@ Public Class frmMain
     Private Sub btnEncrypt_Click(sender As Object, e As EventArgs) Handles btnEncrypt.Click
         If Not IsNothing(_sourceBytes) Then
             If Not tbxPassphrase.Text = "" Then
+                _passphrase = Encoding.UTF8.GetBytes(tbxPassphrase.Text)
                 encrypt()
             End If
         End If
-    End Sub
-
-    Private Sub tbxPassphrase_TextChanged(sender As Object, e As EventArgs) Handles tbxPassphrase.TextChanged
-        _passphrase = Encoding.UTF8.GetBytes(tbxPassphrase.Text)
     End Sub
 
     Private Sub updateHexDisplay()
