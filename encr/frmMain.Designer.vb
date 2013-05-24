@@ -38,9 +38,12 @@ Partial Class frmMain
         Me.tbxOutputBytes = New System.Windows.Forms.TextBox()
         Me.tbxPassphrase = New System.Windows.Forms.TextBox()
         Me.tbxSourceFile = New System.Windows.Forms.TextBox()
+        Me.tbpOptions = New System.Windows.Forms.TabPage()
+        Me.clbOptions = New System.Windows.Forms.CheckedListBox()
         Me.tbcByteDisplay.SuspendLayout()
         Me.tbpInputBytes.SuspendLayout()
         Me.tbpOutputBytes.SuspendLayout()
+        Me.tbpOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'tbxInputBytes
@@ -59,7 +62,7 @@ Partial Class frmMain
         Me.btnSavePass.Enabled = False
         Me.btnSavePass.Location = New System.Drawing.Point(362, 35)
         Me.btnSavePass.Name = "btnSavePass"
-        Me.btnSavePass.Size = New System.Drawing.Size(93, 20)
+        Me.btnSavePass.Size = New System.Drawing.Size(94, 20)
         Me.btnSavePass.TabIndex = 7
         Me.btnSavePass.Text = "Save..."
         Me.ttpInfo.SetToolTip(Me.btnSavePass, "Save Passphrase. UNSAFE!")
@@ -84,9 +87,9 @@ Partial Class frmMain
         Me.cbxHashType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxHashType.FormattingEnabled = True
         Me.cbxHashType.Items.AddRange(New Object() {"MD5 - 255 MiB/s", "RIPEMD160 - 106 MiB/s", "SHA1 - 153 MiB/s", "SHA256 - 111 MiB/s", "SHA384 - unknown, around 105 MiB/s", "SHA512 - 99 MiB/s"})
-        Me.cbxHashType.Location = New System.Drawing.Point(13, 61)
+        Me.cbxHashType.Location = New System.Drawing.Point(12, 61)
         Me.cbxHashType.Name = "cbxHashType"
-        Me.cbxHashType.Size = New System.Drawing.Size(343, 21)
+        Me.cbxHashType.Size = New System.Drawing.Size(345, 21)
         Me.cbxHashType.TabIndex = 10
         Me.ttpInfo.SetToolTip(Me.cbxHashType, "Select the Hash Algorithm. Speeds according to http://www.cryptopp.com/benchmarks" & _
         ".html.")
@@ -95,7 +98,7 @@ Partial Class frmMain
         '
         Me.btnEncrypt.Location = New System.Drawing.Point(364, 61)
         Me.btnEncrypt.Name = "btnEncrypt"
-        Me.btnEncrypt.Size = New System.Drawing.Size(91, 22)
+        Me.btnEncrypt.Size = New System.Drawing.Size(92, 22)
         Me.btnEncrypt.TabIndex = 11
         Me.btnEncrypt.Text = "Crypt."
         Me.btnEncrypt.UseVisualStyleBackColor = True
@@ -104,10 +107,11 @@ Partial Class frmMain
         '
         Me.tbcByteDisplay.Controls.Add(Me.tbpInputBytes)
         Me.tbcByteDisplay.Controls.Add(Me.tbpOutputBytes)
-        Me.tbcByteDisplay.Location = New System.Drawing.Point(13, 89)
+        Me.tbcByteDisplay.Controls.Add(Me.tbpOptions)
+        Me.tbcByteDisplay.Location = New System.Drawing.Point(12, 89)
         Me.tbcByteDisplay.Name = "tbcByteDisplay"
         Me.tbcByteDisplay.SelectedIndex = 0
-        Me.tbcByteDisplay.Size = New System.Drawing.Size(442, 301)
+        Me.tbcByteDisplay.Size = New System.Drawing.Size(444, 301)
         Me.tbcByteDisplay.TabIndex = 13
         '
         'tbpInputBytes
@@ -116,7 +120,7 @@ Partial Class frmMain
         Me.tbpInputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpInputBytes.Name = "tbpInputBytes"
         Me.tbpInputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpInputBytes.Size = New System.Drawing.Size(434, 275)
+        Me.tbpInputBytes.Size = New System.Drawing.Size(436, 275)
         Me.tbpInputBytes.TabIndex = 0
         Me.tbpInputBytes.Text = "Input"
         Me.tbpInputBytes.UseVisualStyleBackColor = True
@@ -127,7 +131,7 @@ Partial Class frmMain
         Me.tbpOutputBytes.Location = New System.Drawing.Point(4, 22)
         Me.tbpOutputBytes.Name = "tbpOutputBytes"
         Me.tbpOutputBytes.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpOutputBytes.Size = New System.Drawing.Size(434, 275)
+        Me.tbpOutputBytes.Size = New System.Drawing.Size(436, 275)
         Me.tbpOutputBytes.TabIndex = 1
         Me.tbpOutputBytes.Text = "Output"
         Me.tbpOutputBytes.UseVisualStyleBackColor = True
@@ -153,17 +157,38 @@ Partial Class frmMain
         '
         'tbxSourceFile
         '
-        Me.tbxSourceFile.Location = New System.Drawing.Point(11, 9)
+        Me.tbxSourceFile.Location = New System.Drawing.Point(12, 9)
         Me.tbxSourceFile.Name = "tbxSourceFile"
         Me.tbxSourceFile.ReadOnly = True
         Me.tbxSourceFile.Size = New System.Drawing.Size(345, 20)
         Me.tbxSourceFile.TabIndex = 15
         Me.tbxSourceFile.Text = "Source File"
         '
+        'tbpOptions
+        '
+        Me.tbpOptions.Controls.Add(Me.clbOptions)
+        Me.tbpOptions.Location = New System.Drawing.Point(4, 22)
+        Me.tbpOptions.Name = "tbpOptions"
+        Me.tbpOptions.Size = New System.Drawing.Size(436, 275)
+        Me.tbpOptions.TabIndex = 2
+        Me.tbpOptions.Text = "Options"
+        Me.tbpOptions.UseVisualStyleBackColor = True
+        '
+        'clbOptions
+        '
+        Me.clbOptions.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clbOptions.FormattingEnabled = True
+        Me.clbOptions.Items.AddRange(New Object() {"Allow short passphrases", "Warn on large files", "Remove existing *.encr extension", "Save to source folder", "Delete source (no undo!)"})
+        Me.clbOptions.Location = New System.Drawing.Point(0, 0)
+        Me.clbOptions.Name = "clbOptions"
+        Me.clbOptions.Size = New System.Drawing.Size(436, 275)
+        Me.clbOptions.TabIndex = 0
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(468, 402)
         Me.Controls.Add(Me.tbxSourceFile)
         Me.Controls.Add(Me.tbxPassphrase)
@@ -172,7 +197,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.cbxHashType)
         Me.Controls.Add(Me.btnChangeSource)
         Me.Controls.Add(Me.btnSavePass)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -182,6 +207,7 @@ Partial Class frmMain
         Me.tbpInputBytes.PerformLayout()
         Me.tbpOutputBytes.ResumeLayout(False)
         Me.tbpOutputBytes.PerformLayout()
+        Me.tbpOptions.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -200,5 +226,7 @@ Partial Class frmMain
     Friend WithEvents tbxOutputBytes As System.Windows.Forms.TextBox
     Friend WithEvents tbxPassphrase As System.Windows.Forms.TextBox
     Friend WithEvents tbxSourceFile As System.Windows.Forms.TextBox
+    Friend WithEvents tbpOptions As System.Windows.Forms.TabPage
+    Friend WithEvents clbOptions As System.Windows.Forms.CheckedListBox
 
 End Class

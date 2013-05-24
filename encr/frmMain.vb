@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Math
 Imports System.Text
+Imports Microsoft.VisualBasic
 
 Public Class frmMain
 
@@ -34,12 +35,20 @@ Public Class frmMain
             Dim _fileStream As New FileStream(_fileName, FileMode.Open)
             Dim _binaryReader As BinaryReader = New BinaryReader(_fileStream)
             _sourceBytes = _binaryReader.ReadBytes(DirectCast(_fileStream.Length, Int64))
-
+            If My.Settings.WarnOnLargeFiles = True Then
+                If _sourceBytes.LongLength > 900000 Then
+                    Dim res As MsgBoxResult = MsgBox("The file you are loading is relatively large. Encrypting will take a while. Continue?", MsgBoxStyle.OkCancel, "File Size Warning")
+                    If res = MsgBoxResult.Cancel Then
+                        _sourceBytes = Nothing
+                        Exit Sub
+                    End If
+                End If
+            End If
 #If DEBUG Then 'SHOW THE LOADED FILE'S SIZE IN BYTES
             MsgBox(_sourceBytes.LongLength)
 #End If
-            _inputHex = bytesToString(_sourceBytes)
-            updateHexDisplay()
+                _inputHex = bytesToString(_sourceBytes)
+                updateHexDisplay()
         Catch _e As Exception
             handleErrors(_e)
         End Try
@@ -118,13 +127,7 @@ Public Class frmMain
         lockUI(True)
         _passphraseHash = hashSomething(_passphrase)
 
-        Dim _seed(3) As Byte 'THIS IS RIDICULOUSLY STUPID, THIS HAS TO BE CHANGED!!!
-        _seed(0) = _passphrase(0) 'BUT WHATEVER, LET'S GET THIS RUNNING FIRST.
-        _seed(1) = _passphrase(1)
-        _seed(2) = _passphrase(_passphrase.Length - 2)
-        _seed(3) = _passphrase(_passphrase.Length - 1)
-
-        Dim _seedInt As Int32 = BitConverter.ToInt32(_seed, 0)
+        Dim _seed() As Byte = _passphrase 'THIS IS RIDICULOUSLY STUPID, THIS HAS TO BE CHANGED!!!
 
         Dim _keyBytes() As Byte
 
@@ -135,8 +138,8 @@ Public Class frmMain
 
         For _x As Int32 = 0 To Ceiling(_sourceBytes.Length / _passphraseHash.Length) 'BUILD THE KEY BYTES.
 
-            _seedInt += _passphraseHash(_x Mod _passphraseHash.Length)
-            _chunkKey = hashSomething(BitConverter.GetBytes(_seedInt))
+            addByte(_seed, (_passphraseHash(_x Mod _passphraseHash.Length)))
+            _chunkKey = hashSomething(_seed)
 
             If Not IsNothing(_keyBytes) Then 'THIS IS UGLY AS F**K
                 Dim _keyBytesOldLength As Integer
@@ -166,13 +169,40 @@ Public Class frmMain
         MsgBox(_outBytes.Length)
         MsgBox(_sourceBytes.Length)
 #End If
-
-        saveFile(ofdOpenFile.FileName & ".encr")
+        Dim _savename As String
+        If My.Settings.RemoveExtension = True Then
+            If Microsoft.VisualBasic.Right(ofdOpenFile.FileName, 5) = ".encr" Then
+                _savename = Microsoft.VisualBasic.Left(ofdOpenFile.FileName, ofdOpenFile.FileName.Length - 5)
+            Else
+                _savename = ofdOpenFile.FileName & ".encr"
+            End If
+        Else
+            _savename = ofdOpenFile.FileName & ".encr"
+        End If
+        saveFile(_savename)
+        If My.Settings.DeleteSource Then File.Delete(ofdOpenFile.FileName)
         lockUI(False)
         _outputHex = bytesToString(_outBytes)
         updateHexDisplay()
     End Sub
 
+    Private Function addByte(ByRef bytes As Byte(), addThisByte As Byte) 'CAAAANCEROUS SHIT
+        For x = 0 To bytes.Length
+            Dim bytes_x As Int16 = (bytes(x))
+            Dim _addthisbyte As Int16 = addThisByte
+            Dim h_int As Integer = (bytes_x + _addthisbyte) Mod 255
+            bytes(x) = h_int
+            If bytes_x + _addthisbyte > 255 Then
+                If bytes_x + _addthisbyte > 511 Then
+                    addThisByte = 2
+                Else
+                    addThisByte = 1
+                End If
+            Else
+                Exit For
+            End If
+        Next
+    End Function
 
 #End Region
 
@@ -191,9 +221,21 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub frmMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        My.Settings.AllowShortPassphrases = clbOptions.GetItemCheckState(0)
+        My.Settings.WarnOnLargeFiles = clbOptions.GetItemCheckState(1)
+        My.Settings.RemoveExtension = clbOptions.GetItemCheckState(2)
+        My.Settings.SaveToSourceFolder = clbOptions.GetItemCheckState(3)
+        My.Settings.DeleteSource = clbOptions.GetItemCheckState(4)
+    End Sub
+
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cbxHashType.SelectedIndex = 0
-
+        clbOptions.SetItemChecked(0, My.Settings.AllowShortPassphrases)
+        clbOptions.SetItemChecked(1, My.Settings.WarnOnLargeFiles)
+        clbOptions.SetItemChecked(2, My.Settings.RemoveExtension)
+        clbOptions.SetItemChecked(3, My.Settings.SaveToSourceFolder)
+        clbOptions.SetItemChecked(4, My.Settings.DeleteSource)
     End Sub
 
     Private Sub btnChangeSource_Click(sender As Object, e As EventArgs) Handles btnChangeSource.Click
