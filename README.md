@@ -1,8 +1,8 @@
 encr
 ====
 
-encr is a simple symmetric-key cryptosystem for binary data.It is currently implented in VB.NET and can be compiled in VS2012 for .NET4.5.
-The system creates a unique series of key bytes for each passphrase. Effectively, this creates 2^[length of hash]^[length of hash] possiblities for keystreams.
+encr is a simple RNG-One-Time-Pad cryptosystem for binary data. It is currently implented in VB.NET and can be compiled in VS2012 for .NET4.5.
+The system creates a unique series of key bytes for each passphrase. Effectively, this creates 2^[length of hash]^[length of hash] possiblities for random byte keystreams.
 
 ====
 
