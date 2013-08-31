@@ -285,4 +285,11 @@ Public Class frmMain
 
 #End Region
 
+    Private Sub lnkLinkToInfo_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkLinkToInfo.LinkClicked
+        Try
+            Process.Start("https://github.com/toplel/encr/blob/master/README.md#how-the-cryptosystem-works")
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class

@@ -40,6 +40,7 @@ Partial Class frmMain
         Me.clbOptions = New System.Windows.Forms.CheckedListBox()
         Me.tbxPassphrase = New System.Windows.Forms.TextBox()
         Me.tbxSourceFile = New System.Windows.Forms.TextBox()
+        Me.lnkLinkToInfo = New System.Windows.Forms.LinkLabel()
         Me.tbcByteDisplay.SuspendLayout()
         Me.tbpInputBytes.SuspendLayout()
         Me.tbpOutputBytes.SuspendLayout()
@@ -186,12 +187,23 @@ Partial Class frmMain
         Me.tbxSourceFile.TabIndex = 15
         Me.tbxSourceFile.Text = "Source File"
         '
+        'lnkLinkToInfo
+        '
+        Me.lnkLinkToInfo.AutoSize = True
+        Me.lnkLinkToInfo.Location = New System.Drawing.Point(8, 399)
+        Me.lnkLinkToInfo.Name = "lnkLinkToInfo"
+        Me.lnkLinkToInfo.Size = New System.Drawing.Size(164, 13)
+        Me.lnkLinkToInfo.TabIndex = 16
+        Me.lnkLinkToInfo.TabStop = True
+        Me.lnkLinkToInfo.Text = "Have a look behind the scenes..."
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(402, 400)
+        Me.ClientSize = New System.Drawing.Size(402, 423)
+        Me.Controls.Add(Me.lnkLinkToInfo)
         Me.Controls.Add(Me.tbxSourceFile)
         Me.Controls.Add(Me.tbxPassphrase)
         Me.Controls.Add(Me.tbcByteDisplay)
@@ -230,5 +242,6 @@ Partial Class frmMain
     Friend WithEvents tbxSourceFile As System.Windows.Forms.TextBox
     Friend WithEvents tbpOptions As System.Windows.Forms.TabPage
     Friend WithEvents clbOptions As System.Windows.Forms.CheckedListBox
+    Friend WithEvents lnkLinkToInfo As System.Windows.Forms.LinkLabel
 
 End Class
